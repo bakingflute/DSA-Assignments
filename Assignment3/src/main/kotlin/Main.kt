@@ -1,16 +1,28 @@
 package org.example
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
+    // 1) Graph sanity
+    val g = DirectedWeightedGraph<String>()
+    g.addEdge("A", "B", 2.0)
+    g.addEdge("A", "C", 5.0)
+    g.addEdge("B", "C", 1.0)
+    g.addEdge("B", "D", 4.0)
+    g.addEdge("C", "D", 1.0)
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
-    }
+    println("Vertices: " + g.getVertices())         // [A, B, C, D] (order may vary)
+    println("Edges from A: " + g.getEdges("A"))     // {B=2.0, C=5.0}
+
+    // 2) PQ sanity
+    val pq = HeapMinPriorityQueue<String>()
+    pq.addWithPriority("A", 5.0)
+    pq.addWithPriority("B", 2.0)
+    pq.addWithPriority("C", 3.0)
+    println(pq.next()) // B
+    println(pq.next()) // C
+    println(pq.next()) // A
+    println(pq.next()) // null
+
+    // 3) Dijkstra sanity (A -> D)
+    val path = dijkstraShortestPath(g, "A", "D")
+    println("Shortest path A->D: $path") // Example: [A, B, C, D] with total cost 2+1+1=4
 }
